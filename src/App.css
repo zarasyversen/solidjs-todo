@@ -69,3 +69,8 @@ input.todoSearchInput {
   flex-basis: 100%;
   margin: 10px 0;
 }
+
+.counter {
+  margin: 10px 0;
+  text-align: center;
+}

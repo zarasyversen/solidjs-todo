@@ -3,6 +3,7 @@ import './TodoListItem.css';
 
 function TodoListItem(props: {todo: TodoItem, completeItem: (id: number) => void} ) {
   const todo = props.todo;
+  const todoDetails = `${todo.updated ? 'Updated' : 'Created'} ${todo.time} ${todo.day}`;
   return (
     <li class="item">
       <div class="item__inner">
@@ -24,14 +25,7 @@ function TodoListItem(props: {todo: TodoItem, completeItem: (id: number) => void
         <div class={`details${todo.completed ? ' is-complete' : ''}`} >
           <p>{todo.title}</p>
           <small>
-            {todo.updated &&
-              <span>Updated</span>
-            }
-            {!todo.updated &&
-              <span>Created</span>
-            }
-            {todo.time}
-            {todo.day}
+            {todoDetails}
           </small>
         </div>
       </div>

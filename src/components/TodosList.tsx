@@ -1,17 +1,19 @@
-import { For, batch, createSignal } from 'solid-js';
-import { completeTodo, createLocalStore } from '../utils/utils';
+import { For, createSignal } from 'solid-js';
 import { TodoItem } from '../types/TodoItem';
 import { __dateTimeHelper } from '../helpers/DateTimeHelper';
 import TodoListItem from './todoListItem/TodoListItem';
 
 
-function TodosList() {
+function TodosList(props: {
+    todos: TodoItem[],
+    addTodo: (newTitle: string) => void
+    completeTodo: (id: number) => void
+  }) {
   const [isSearching, setIsSearching] = createSignal(false);
   const toggleSearch = () => setIsSearching(!isSearching());
   const [noResults, toggleNoResults] = createSignal(false);
 
   const [newTitle, setTitle] = createSignal("");
-  const [todos, setTodos] = createLocalStore<TodoItem[]>("todos", []);
 
   const addTodo = (e: SubmitEvent) => {
     e.preventDefault();
@@ -19,21 +21,12 @@ function TodosList() {
       alert('Please write an item');
       return; 
     }
-    batch(() => {
-      setTodos(todos.length, {
-        id: Date.now(),
-        title: newTitle(),
-        completed: false,
-        updated: false,
-        day: __dateTimeHelper.getCurrentDay(),
-        time: __dateTimeHelper.getCurrentTime()
-      });
-      setTitle("");
-    });
+    props.addTodo(newTitle());
+    setTitle("");
   };
 
   const completingTodo = (todoId: number) => {
-    setTodos(completeTodo(todos, todoId));
+    props.completeTodo(todoId);
   };
  
   return (
@@ -75,7 +68,7 @@ function TodosList() {
           <button class="button addTodoForm__button"> Add </button>
         </form>
       </div>
-      <For each={todos}>
+      <For each={props.todos}>
         {(todo) => (
           <TodoListItem todo={todo} completeItem={completingTodo} />
         )}

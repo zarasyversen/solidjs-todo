@@ -6,6 +6,7 @@ import TodosList from './components/TodosList';
 import { __dateTimeHelper } from './helpers/DateTimeHelper';
 import { TodoItem } from './types/TodoItem';
 import { completeTodo, createLocalStore } from './utils/utils';
+import AddTodo from './components/addTodo/AddTodo';
 
 function App() {
   const [todos, setTodos] = createLocalStore<TodoItem[]>("todos", []);
@@ -35,8 +36,9 @@ function App() {
       <div class="inner">
         <div class="inner-top">
           <Header />
-          {<Counter todos={todos} /> }
-          <TodosList todos={todos} completeTodo={completingTodo} addTodo={addNewTodo}/>
+          <Counter todos={todos} />
+          <AddTodo addTodo={addNewTodo} />
+          <TodosList todos={todos} completeTodo={completingTodo}/>
         </div>
       </div>
     </div>
